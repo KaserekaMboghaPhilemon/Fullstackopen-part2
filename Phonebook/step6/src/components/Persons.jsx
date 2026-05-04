@@ -6,4 +6,5 @@ const Persons = ({ personsToShow }) => (
   </div>
 )
 
+
 export default Persons
