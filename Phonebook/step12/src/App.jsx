@@ -56,13 +56,25 @@ const App = () => {
     }
 
     const personObject = { name: newName, number: newNumber }
-
-    personService.create(personObject).then(returnedPerson => {
-      setPersons(persons.concat(returnedPerson))
-      showNotification(`Added ${returnedPerson.name}`, 'success')
-      setNewName('')
-      setNewNumber('')
-    })
+// Show error message if validation fails (e.g. name too short, number missing) and do not add the person to the phonebook if validation fails
+//  (e.g. name too short, number missing) and do not 
+// add the person to the phonebook
+    personService.create(personObject)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
+        showNotification(`Added ${returnedPerson.name}`, 'success')
+        setNewName('')
+        setNewNumber('')
+      })
+        .catch(error => {
+          //show backend validation error message
+          // if name is too short or missing or 
+          // number is missing
+          showNotification(
+            `Error adding ${newName}: ${error.response.data.error}`,
+            'error'
+          )
+        })
   }
 
   const deletePerson = (id, name) => {
